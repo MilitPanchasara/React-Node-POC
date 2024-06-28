@@ -1,6 +1,6 @@
 import React from 'react'
 import { Doughnut, Line } from 'react-chartjs-2'
-import Card from './Card'
+import Card from '../common/UI/Card'
 import {
     Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Colors
 } from 'chart.js';

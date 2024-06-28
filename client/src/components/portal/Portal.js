@@ -1,8 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Sidebar from './Sidebar'
-import Topbar from './Topbar'
-import Userlist from './Userlist'
+import Sidebar from '../common/side-bar/Sidebar'
+import Topbar from '../common/top-bar/Topbar'
 
 function Portal() {
   return (

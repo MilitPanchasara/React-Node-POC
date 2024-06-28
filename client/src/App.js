@@ -1,19 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import Sidebar from './Sidebar';
-import Topbar from './Topbar';
-import "./sb-admin-2.min.css";
-import Dashboard from './Dashboard';
+import "./styles/sb-admin-2.min.css";
+import Dashboard from './components/dashboard/Dashboard';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './Login';
-import Userlist from './Userlist';
-import Portal from './Portal';
-import UserCreate from './UserCreate';
-import UserView from './UserView';
-import UserEdit from './UserEdit';
-import ProductList from './Product/ProductList';
-import ProductCreate from './Product/ProductCreate';
-import CustomerList from './CustomerList';
+import Login from './components/login/Login';
+import Userlist from './components/user/Userlist';
+import Portal from './components/portal/Portal';
+import UserCreate from './components/user/UserCreate';
+import UserView from './components/user/UserView';
+import UserEdit from './components/user/UserEdit';
+import ProductList from './components/Product/ProductList';
+import ProductCreate from './components/Product/ProductCreate';
+import CustomerList from './components/customer/CustomerList';
 
 function App() {
   return (
