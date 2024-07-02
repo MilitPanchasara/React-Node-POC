@@ -22,7 +22,7 @@ export  class Customers {
     @Column()
     BirthDate: Date
 
-    @Column({ type: "varchar", length: 250 })
+    @Column({ type: "varchar", length: 250, nullable:true })
     CustomerPhotoPath: string
 
     @Column()
