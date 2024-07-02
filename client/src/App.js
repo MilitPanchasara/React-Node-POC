@@ -12,6 +12,7 @@ import UserEdit from './components/user/UserEdit';
 import ProductList from './components/Product/ProductList';
 import ProductCreate from './components/Product/ProductCreate';
 import CustomerList from './components/customer/CustomerList';
+import DiscountList from './components/discount/DiscountList';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='product/product-list' element={<ProductList />} />
           <Route path='product/create-product' element={<ProductCreate />} />
           <Route path='customer-list' element={<CustomerList />} />
+          <Route path='discount-list' element={<DiscountList />} />
         </Route>
       </Routes>
     </BrowserRouter>

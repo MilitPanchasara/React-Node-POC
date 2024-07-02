@@ -1,65 +1,65 @@
 import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm"
 import { ApplicationObjects } from "./ApplicationObjeacts"
 
-@Entity()
-export class Discounts {
+@Entity({ name: "discounts" })
+export class Discount {
 
-    @PrimaryGeneratedColumn()
-    DiscountId: number
+    @PrimaryGeneratedColumn({ name: "DiscountId" })
+    discountId: number
 
-    @Column({ type: "varchar", length: 50 })
-    DiscountName: string
+    @Column({ name: "DiscountName", type: "varchar", length: 50 })
+    discountName: string
 
-    @Column({ type: "varchar", length: 200 })
-    DiscountDescription: string
+    @Column({ name: "DiscountDescription", type: "varchar", length: 200 })
+    discountDescription: string
 
-    @Column({ type: "decimal" })
-    DiscountAmount: number
+    @Column({ name: "DiscountAmount", type: "decimal" })
+    discountAmount: number
 
-    @Column()
-    RequireCouponCode: boolean
+    @Column({ name: "RequireCouponCode" })
+    requireCouponCode: boolean
 
-    @Column({ type: "varchar", length: 50 })
-    CouponCode: string
+    @Column({ name: "CouponCode", type: "varchar", length: 50 })
+    couponCode: string
 
-    @Column()
-    ValidTillDate: Date
+    @Column({ name: "ValidTillDate" })
+    validTillDate: Date
 
-    @Column({ type: "varchar", length: 250 })
-    DiscountBannerPath: string
+    @Column({ name: "DiscountBannerPath", type: "varchar", length: 250 })
+    discountBannerPath: string
 
-    @Column()
-    DiscountCategoryId: number
+    @Column({ name: "DiscountCategoryId" })
+    discountCategoryId: number
 
     @ManyToOne(() => ApplicationObjects)
     @JoinColumn({ name: "DiscountCategoryId" })
-    DiscountCategory: ApplicationObjects;
+    discountCategory: ApplicationObjects;
 
-    @Column()
-    IsActive: boolean
+    @Column({ name: "IsActive" })
+    isActive: boolean
 
-    @Column()
-    DiscountTypeId: number
+    @Column({ name: "DiscountTypeId" })
+    discountTypeId: number
 
     @ManyToOne(() => ApplicationObjects)
     @JoinColumn({ name: "DiscountTypeId" })
-    DiscountCategoryType: ApplicationObjects;
+    discountCategoryType: ApplicationObjects;
 
-    @Column()
-    StatusId: number
+    @Column({ name: "StatusId" })
+    statusId: number
 
-    @Column()
-    CreatedBy: number
+    @Column({ name: "CreatedBy" })
+    createdBy: number
 
-    @CreateDateColumn()
-    CreatedAt: Date
+    @CreateDateColumn({ name: "CreatedAt" })
+    createdAt: Date
 
-    @Column()
-    UpdatedBy: number
+    @Column({ name: "UpdatedBy" })
+    updatedBy: number
 
-    @UpdateDateColumn()
-    UpdatedAt: Date
+    @UpdateDateColumn({ name: "UpdatedAt" })
+    updatedAt: Date
 
-    @Column({ type: "varchar", length: 20 })
-    UserIpAddress: string
+    @Column({ name: "UserIpAddress", type: "varchar", length: 20 })
+    userIpAddress: string
 }

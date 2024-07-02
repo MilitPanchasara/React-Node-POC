@@ -5,7 +5,7 @@ import { ApplicationObjects } from "../entity/ApplicationObjeacts";
 import { ApplicationObjectTypes } from "../entity/ApplicationObjectTypes";
 import { ApplicationUsersTokens } from "../entity/ApplicationUsersTokens";
 import { Customers } from "../entity/Customers";
-import { Discounts } from "../entity/Discount";
+import { Discount } from "../entity/Discount";
 import { Modules } from "../entity/Modules";
 import { Photos } from "../entity/Photos";
 import { Productcategories } from "../entity/ProductCategories";
@@ -30,7 +30,7 @@ export const AppDataSource = new DataSource({
 		ApplicationObjectTypes,
 		ApplicationUsersTokens,
 		Customers,
-		Discounts,
+		Discount,
 		Modules,
 		Photos,
 		Productcategories,

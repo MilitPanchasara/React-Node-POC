@@ -1,18 +1,16 @@
 import { Router, Request, Response } from 'express';
-import { GetRoles, AddRoles, UpdateRoles, DeleteRoles } from '../controllers/discount.controller';
-import { Roles } from '../entity/Roles';
+import { getDiscounts, addDiscount, UpdateRoles, DeleteRoles } from '../controllers/discount.controller';
+import { createDiscountValidator } from '../middlewares/validators/discount-validators.middleware';
 
 const discountRoute: Router = Router();
 
 // Basic CRUD Routing
 
-discountRoute.get('/Discount', GetRoles, async (req: Request, res: Response) => {
+discountRoute.post('/discounts', getDiscounts, async (req: Request, res: Response) => {
   res.status(200).send(res.locals.results);
 });
 
-discountRoute.post('/Discount', AddRoles, async (req: Request, res: Response) => {
-  res.status(200).send(res.locals.AddedRoles);
-});
+discountRoute.post('/discount', createDiscountValidator, addDiscount);
 
 discountRoute.put('/Discount', UpdateRoles, async (req: Request, res: Response) => {
   res.status(200).send(res.locals.UpdatedRole);

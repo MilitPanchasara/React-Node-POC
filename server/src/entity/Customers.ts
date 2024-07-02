@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, ManyToOne, JoinColumn, BeforeInsert, BeforeUpdate } from "typeorm"
 import { ApplicationObjects } from "./ApplicationObjeacts"
 
 @Entity()
@@ -19,7 +19,7 @@ export  class Customers {
     @Column({ type: "varchar", length: 50 })
     Email: string
 
-    @Column()
+    @Column({ type: "date", nullable: true})
     BirthDate: Date
 
     @Column({ type: "varchar", length: 250, nullable:true })
@@ -59,5 +59,6 @@ export  class Customers {
 
     @Column({ type: "varchar", length: 20 })
     UserIpAddress: string
-    
+
 }
+

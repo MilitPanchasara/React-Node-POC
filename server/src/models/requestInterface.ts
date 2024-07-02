@@ -1,6 +1,5 @@
-import { Request } from 'express';
-import { User } from '../entity/User';
 import { Vendors } from '../entity/Vendors';
+import { User } from '../entity/User';
 
 declare global {
   namespace Express {

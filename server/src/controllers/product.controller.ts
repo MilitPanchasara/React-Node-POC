@@ -84,6 +84,7 @@ const AddProduct = async (req: Request, res: Response, next: NextFunction) => {
 			});
 		}
 	} catch (error) {
+		console.log(error)
 		next({
 			error: { status: HttpStatusCodes.SERVER_ERROR, message: error },
 		});
