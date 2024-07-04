@@ -5,11 +5,13 @@ import { Customers } from '../entity/Customers';
 import Joi from 'joi';
 import { customerDetails } from '../models/customerModel';
 import { Status } from '../enums/status';
-
+import { ApplicationObjects } from '../entity/ApplicationObjeacts';
 
 const customerRepository = AppDataSource.getRepository(Customers)
+const applicationObjectRepository = AppDataSource.getRepository(ApplicationObjects)
 
 const customerValidations = Joi.object().keys({
+  customerImage:Joi.allow(),
   customerName: Joi.string().required().min(4).max(50),
   customerDetails: Joi.string().required().min(50).max(200),
   contactNumber: Joi.allow(),
@@ -23,6 +25,26 @@ const customerValidations = Joi.object().keys({
 const GetCustomers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await customerRepository.find();
+    const applicationObjects = await applicationObjectRepository.find();
+    const application = result.forEach((customer) =>{
+      customer.CustomerRole = applicationObjects.find(x => x.ApplicationObjectId == customer.customerRoleId);
+      customer.CustomerType = applicationObjects.find(x => x.ApplicationObjectId == customer.customerTypeId);
+    })
+    res.locals.results = result;
+    next();
+  } catch (error) {
+    next({ error: { status: HttpStatusCodes.SERVER_ERROR, message: error.message } });
+  }
+};
+
+const GetCustomerById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await customerRepository.findOne({where: {
+      customerId: parseInt(req.query.id.toString(),10),
+    }});
+    const applicationObjects = await applicationObjectRepository.find();
+    result.CustomerRole = applicationObjects.find(x => x.ApplicationObjectId == result.customerRoleId);
+    result.CustomerType = applicationObjects.find(x => x.ApplicationObjectId == result.customerTypeId);
     res.locals.results = result;
     next();
   } catch (error) {
@@ -44,19 +66,19 @@ const AddCustomers = async (req: Request, res: Response, next: NextFunction) => 
     else {
       const customerDetail = req.body as customerDetails;
       var customer = new Customers();
-      customer.CustomerName = customerDetail.customerName;
-      customer.CustomerDetails = customerDetail.customerDetails;
-      customer.ContactNumber = customerDetail.contactNumber;
-      customer.Email = customerDetail.email;
-      customer.CustomerPhotoPath = req.file.filename;
-      customer.BirthDate = customerDetail.birthDate;
-      customer.CustomerTypeId = customerDetail.customerTypeId;
-      customer.IsActive = customerDetail.isActive;
-      customer.CustomerRoleId = customerDetail.customerRoleId;
-      customer.StatusId = Status.Active
-      customer.CreatedBy = 1;
-      customer.UpdatedBy = 1;
-      customer.UserIpAddress = '';
+      customer.customerName = customerDetail.customerName;
+      customer.customerDetails = customerDetail.customerDetails;
+      customer.contactNumber = customerDetail.contactNumber;
+      customer.email = customerDetail.email;
+      customer.customerPhotoPath = req.file.filename;
+      customer.birthDate = customerDetail.birthDate;
+      customer.customerTypeId = customerDetail.customerTypeId;
+      customer.isActive = customerDetail.isActive;
+      customer.customerRoleId = customerDetail.customerRoleId;
+      customer.statusId = Status.Active
+      customer.createdBy = 1;
+      customer.updatedBy = 1;
+      customer.userIpAddress = '';
       const data = await customerRepository.save(customer);
       next();
     }
@@ -82,16 +104,16 @@ const UpdateCustomers = async (req: Request, res: Response, next: NextFunction) 
       const customerDetail = req.body as customerDetails;
       var customer = new Customers();
 
-      customer.CustomerName = customerDetail.customerName;
-      customer.CustomerDetails = customerDetail.customerDetails;
-      customer.ContactNumber = customerDetail.contactNumber;
-      customer.Email = customerDetail.email;
-      customer.CustomerPhotoPath = req.file.filename;
-      customer.BirthDate = customerDetail.birthDate;
-      customer.CustomerTypeId = customerDetail.customerTypeId;
-      customer.IsActive = customerDetail.isActive;
-      customer.CustomerRoleId = customerDetail.customerRoleId;
-      customer.UpdatedBy = 1;
+      customer.customerName = customerDetail.customerName;
+      customer.customerDetails = customerDetail.customerDetails;
+      customer.contactNumber = customerDetail.contactNumber;
+      customer.email = customerDetail.email;
+      customer.customerPhotoPath = req.file.filename;
+      customer.birthDate = customerDetail.birthDate;
+      customer.customerTypeId = customerDetail.customerTypeId;
+      customer.isActive = customerDetail.isActive;
+      customer.customerRoleId = customerDetail.customerRoleId;
+      customer.updatedBy = 1;
 
       await customerRepository.update(id, customer);
       res.locals.UpdatedRole = `customer Id : ${id} Updated Successfully`;
@@ -113,4 +135,4 @@ const DeleteCustomers = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export { GetCustomers, AddCustomers, UpdateCustomers, DeleteCustomers };
+export { GetCustomers, AddCustomers, UpdateCustomers, DeleteCustomers,GetCustomerById };

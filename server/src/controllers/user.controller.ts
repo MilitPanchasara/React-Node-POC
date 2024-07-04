@@ -76,6 +76,35 @@ const getUserByEmail = async (
 	}
 };
 
+const getUserById = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		console.log(req.query.id)
+		const user = await userRepository.findOne({
+			where: {
+				UserId: parseInt(req.query.id.toString(),10),
+			},
+		});
+		if (!user) {
+			return res
+				.status(HttpStatusCodes.UNAUTHORIZED)
+				.send({ message: "User Does Not Exist" });
+		}
+		res.locals.user = user;
+		next();
+	} catch (error) {
+		next({
+			error: {
+				status: HttpStatusCodes.SERVER_ERROR,
+				message: error.message,
+			},
+		});
+	}
+};
+
 const AddUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { error } = UserDataValidation.validate(req.body);
@@ -129,4 +158,4 @@ const AddUser = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
-export { GetUsers, getUserByEmail, AddUser };
+export { GetUsers, getUserByEmail, AddUser,getUserById };

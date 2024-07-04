@@ -13,8 +13,9 @@ function UserEdit() {
 
     let getUserData = async () => {
         try {
-            const user = await axios.get(`https://63a9bccb7d7edb3ae616b639.mockapi.io/users/${params.id}`);
+            const user = await axios.get(`http://localhost:3333/getUserById`,{params:{id:params.id}});
             myFormik.setValues(user.data);
+            console.log(myFormik.values);
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -23,11 +24,10 @@ function UserEdit() {
 
     const myFormik = useFormik({
         initialValues: {
-            username: "",
-            email: "",
-            city: "",
-            state: "",
-            country: ""
+            FirstName: "",
+            LastName:"",
+            Email: "",
+            RoleName:""
         },
         // Validating Forms while entering the data
         validate: (values) => {
@@ -81,58 +81,28 @@ function UserEdit() {
                 <form onSubmit={myFormik.handleSubmit}>
                     <div className='row'>
                         <div className="col-lg-6">
-                            <label>Name</label>
-                            <input name='username' value={myFormik.values.username} onChange={myFormik.handleChange} type={"text"}
-                                className={`form-control ${myFormik.errors.username ? "is-invalid" : ""} `} />
-                            <span style={{ color: "red" }}>{myFormik.errors.username}</span>
+                            <label>First Name</label>
+                            <input name='username' value={myFormik.values.FirstName} onChange={myFormik.handleChange} type={"text"}
+                                className={`form-control ${myFormik.errors.FirstName ? "is-invalid" : ""} `} />
+                            <span style={{ color: "red" }}>{myFormik.errors.FirstName}</span>
                         </div>
-
+                        <div className="col-lg-6">
+                            <label>Last Name</label>
+                            <input name='username' value={myFormik.values.LastName} onChange={myFormik.handleChange} type={"text"}
+                                className={`form-control ${myFormik.errors.LastName ? "is-invalid" : ""} `} />
+                            <span style={{ color: "red" }}>{myFormik.errors.LastName}</span>
+                        </div>
                         <div className="col-lg-6">
                             <label>E-Mail</label>
-                            <input name='email' value={myFormik.values.email} onChange={myFormik.handleChange} type={"mail"}
-                                className={`form-control ${myFormik.errors.email ? "is-invalid" : ""} `} />
-                            <span style={{ color: "red" }}>{myFormik.errors.email}</span>
+                            <input name='email' value={myFormik.values.Email} onChange={myFormik.handleChange} type={"mail"}
+                                className={`form-control ${myFormik.errors.Email ? "is-invalid" : ""} `} />
+                            <span style={{ color: "red" }}>{myFormik.errors.Email}</span>
                         </div>
-
-                        <div className='col-lg-4'>
-                            <label>City</label>
-                            <select name='city' value={myFormik.values.city} onChange={myFormik.handleChange}
-                                className={`form-control ${myFormik.errors.city ? "is-invalid" : ""} `} >
-                                <option value="">----Select----</option>
-                                <option value="CN">Chennai</option>
-                                <option value="KN">Kochin</option>
-                                <option value="MU">Mumbai</option>
-                                <option value="SA">Seattle</option>
-                                <option value="MI">Miami</option>
-                                <option value="VB">Virginia Beach</option>
-                            </select>
-                            <span style={{ color: "red" }}>{myFormik.errors.city}</span>
-                        </div>
-
-                        <div className='col-lg-4'>
-                            <label>State</label>
-                            <select name='state' value={myFormik.values.state} onChange={myFormik.handleChange}
-                                className={`form-control ${myFormik.errors.state ? "is-invalid" : ""} `} >
-                                <option value="">----Select----</option>
-                                <option value="TN">TamilNadu</option>
-                                <option value="KL">Kerala</option>
-                                <option value="MH">Maharashtra</option>
-                                <option value="WA">Washington</option>
-                                <option value="FL">Florida</option>
-                                <option value="VA">Virginia</option>
-                            </select>
-                            <span style={{ color: "red" }}>{myFormik.errors.state}</span>
-                        </div>
-
-                        <div className='col-lg-4'>
-                            <label>Country</label>
-                            <select name='country' value={myFormik.values.country} onChange={myFormik.handleChange}
-                                className={`form-control ${myFormik.errors.country ? "is-invalid" : ""} `} >
-                                <option value="">----Select----</option>
-                                <option value="IN">India</option>
-                                <option value="US">USA</option>
-                            </select>
-                            <span style={{ color: "red" }}>{myFormik.errors.country}</span>
+                        <div className="col-lg-6">
+                            <label>E-Mail</label>
+                            <input name='email' value={myFormik.values.Email} onChange={myFormik.handleChange} type={"mail"}
+                                className={`form-control ${myFormik.errors.Email ? "is-invalid" : ""} `} />
+                            <span style={{ color: "red" }}>{myFormik.errors.Email}</span>
                         </div>
 
                         <div className='col-lg-4 mt-3'>

@@ -15,7 +15,7 @@ function UserView() {
 
     let getUsers = async () => {
         try {
-            const user = await axios.get(`https://63a9bccb7d7edb3ae616b639.mockapi.io/users/${params.id}`);
+            const user = await axios.get(`http://localhost:3333/getUserById`,{params:{id:params.id}});
             // console.log(user);
             setUserList(user.data);
             // console.log(userList);
@@ -49,7 +49,7 @@ function UserView() {
                                             <th>Country</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
+                                    {/* <tfoot>
                                         <tr>
                                             <th>Id</th>
                                             <th>Name</th>
@@ -58,12 +58,12 @@ function UserView() {
                                             <th>State</th>
                                             <th>Country</th>
                                         </tr>
-                                    </tfoot>
+                                    </tfoot> */}
                                     <tbody>
                                         <tr>
-                                            <td>{userList.id}</td>
-                                            <td> {userList.username} </td>
-                                            <td>{userList.email}</td>
+                                            <td>{userList.UserId}</td>
+                                            <td> {userList.FirstName +" "+userList.LastName} </td>
+                                            <td>{userList.Email}</td>
                                             <td>{userList.city}</td>
                                             <td>{userList.state}</td>
                                             <td>{userList.country}</td>

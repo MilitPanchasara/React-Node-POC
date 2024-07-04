@@ -14,11 +14,14 @@ import vendorRoute from "./routes/vendor.route";
 // import PostRouter from './routes/post.route';  // Adjust this path based on your project structure
 import morgan from "morgan";
 import { AppDataSource } from "./config/data-source";
+// import { AppDataSource } from "../storage";
+
 
 dotenv.config();
 
 const app = express();
-
+console.log(path.join(__dirname, '../storage'));
+app.use('/uploads',express.static(path.join(__dirname, '../storage')))
 // Middleware
 app.use(
 	cors({

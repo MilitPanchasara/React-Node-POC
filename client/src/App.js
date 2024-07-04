@@ -12,6 +12,8 @@ import UserEdit from './components/user/UserEdit';
 import ProductList from './components/Product/ProductList';
 import ProductCreate from './components/Product/ProductCreate';
 import CustomerList from './components/customer/CustomerList';
+import CustomerEdit from './components/customer/CustomerEdit';
+import CustomerCreate from './components/customer/CustomerCreate';
 import DiscountList from './components/discount/DiscountList';
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
           <Route path='product/product-list' element={<ProductList />} />
           <Route path='product/create-product' element={<ProductCreate />} />
           <Route path='customer-list' element={<CustomerList />} />
+          <Route path='customer-edit/:id' element={<CustomerEdit />} />
+          <Route path='customer-list/create-customer' element={<CustomerCreate />} />
           <Route path='discount-list' element={<DiscountList />} />
         </Route>
       </Routes>

@@ -1,5 +1,8 @@
+import { ApplicationObjects } from "../entity/ApplicationObjeacts"
 
-export  class customerDetails {
+export class customerDetails {
+
+    customerId: number
 
     customerName: string
 
@@ -11,11 +14,27 @@ export  class customerDetails {
 
     birthDate: Date
 
+    customerPhotoPath: string
+
     customerTypeId: number
+
+    customerType: ApplicationObjects;
 
     isActive: boolean
 
     customerRoleId: number
+
+    customerRole: ApplicationObjects;
+
+    statusId: number
+
+    createdBy: number
+
+    createdAt: Date
+
+    updatedBy: number
+
+    updatedAt: Date
 
     userIpAddress: string
 }

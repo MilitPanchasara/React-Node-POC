@@ -17,7 +17,7 @@ function Userlist() {
 
   let getUsers = async () => {
     try {
-      const users = await axios.get("https://63a9bccb7d7edb3ae616b639.mockapi.io/users");
+      const users = await axios.get("http://localhost:3333/User");
       setUserList(users.data);
       setLoading(false);
     } catch (error) {
@@ -86,16 +86,14 @@ function Userlist() {
                     {userList.map((user) => {
                       return (
                         <tr>
-                          <td>{user.id}</td>
-                          <td>{user.username}</td>
-                          <td>{user.email}</td>
-                          <td>{user.city}</td>
-                          <td>{user.state}</td>
-                          <td>{user.country}</td>
+                          <td>{user.UserId}</td>
+                          <td>{user.FirstName +" "+ user.LastName}</td>
+                          <td>{user.Email}</td>
+                          <td>{user.Role.RoleName}</td>
                           <th>
-                            <Link to={`/portal/user-view/${user.id}`} className='btn btn-primary btn-sm mr-1'>View</Link>
-                            <Link to={`/portal/user-edit/${user.id}`} className='btn btn-info btn-sm mr-1'>Edit</Link>
-                            <button onClick={() => handleDelete(user.id)} className='btn btn-danger btn-sm mr-1'>Delete</button>
+                            <Link to={`/portal/user-view/${user.UserId}`} className='btn btn-primary btn-sm mr-1'>View</Link>
+                            <Link to={`/portal/user-edit/${user.UserId}`} className='btn btn-info btn-sm mr-1'>Edit</Link>
+                            <button onClick={() => handleDelete(user.UserId)} className='btn btn-danger btn-sm mr-1'>Delete</button>
                           </th>
                         </tr>
                       )

@@ -4,61 +4,61 @@ import { ApplicationObjects } from "./ApplicationObjeacts"
 @Entity()
 export  class Customers {
 
-    @PrimaryGeneratedColumn()
-    CustomerId: number
+    @PrimaryGeneratedColumn({ name: "CustomerId"})
+    customerId: number
 
-    @Column({ type: "varchar", length: 50 })
-    CustomerName: string
+    @Column({ type: "varchar", length: 50, name: "CustomerName" })
+    customerName: string
 
-    @Column({ type: "varchar", length: 200 })
-    CustomerDetails: string
+    @Column({ type: "varchar", length: 200,name:"CustomerDetails" })
+    customerDetails: string
 
-    @Column({ type: "varchar", length: 10 })
-    ContactNumber: string
+    @Column({ type: "varchar", length: 10,name:"ContactNumber" })
+    contactNumber: string
 
-    @Column({ type: "varchar", length: 50 })
-    Email: string
+    @Column({ type: "varchar", length: 50,name:"Email" })
+    email: string
 
-    @Column({ type: "date", nullable: true})
-    BirthDate: Date
+    @Column({ type: "date", nullable: true, name:"BirthDate"})
+    birthDate: Date
 
-    @Column({ type: "varchar", length: 250, nullable:true })
-    CustomerPhotoPath: string
+    @Column({ type: "varchar", length: 250, nullable:true,name:"CustomerPhotoPath" })
+    customerPhotoPath: string
 
-    @Column()
-    CustomerTypeId: number
+    @Column({name:"CustomerTypeId"})
+    customerTypeId: number
 
     @ManyToOne(() => ApplicationObjects)
     @JoinColumn({ name: "CustomerTypeId" })
     CustomerType: ApplicationObjects;
 
-    @Column()
-    IsActive: boolean
+    @Column({name:"IsActive"})
+    isActive: boolean
 
-    @Column()
-    CustomerRoleId: number
+    @Column({name:"CustomerRoleId"})
+    customerRoleId: number
 
     @ManyToOne(() => ApplicationObjects)
     @JoinColumn({ name: "CustomerRoleId" })
     CustomerRole: ApplicationObjects;
 
-    @Column()
-    StatusId: number
+    @Column({name:"StatusId"})
+    statusId: number
 
-    @Column()
-    CreatedBy: number
+    @Column({name:"CreatedBy"})
+    createdBy: number
 
-    @CreateDateColumn()
-    CreatedAt: Date
+    @CreateDateColumn({name:"CreatedAt"})
+    createdAt: Date
 
-    @Column()
-    UpdatedBy: number
+    @Column({name:"UpdatedBy"})
+    updatedBy: number
 
-    @UpdateDateColumn()
-    UpdatedAt: Date
+    @UpdateDateColumn({name:"UpdatedAt"})
+    updatedAt: Date
 
-    @Column({ type: "varchar", length: 20 })
-    UserIpAddress: string
+    @Column({ type: "varchar", length: 20,name:"UserIpAddress" })
+    userIpAddress: string
 
 }
 

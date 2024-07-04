@@ -44,4 +44,9 @@ UserRoute.post('/SignUp', UserController.AddUser, async (req: Request, res: Resp
   res.status(200).send(res.locals.SignupStatus);
 });
 
+
+UserRoute.get('/getUserById', UserController.getUserById, async (req: Request, res: Response) => {
+  res.status(200).send(res.locals.user);
+});
+
 export default UserRoute;
