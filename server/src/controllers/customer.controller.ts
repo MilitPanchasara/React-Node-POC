@@ -6,6 +6,7 @@ import Joi from 'joi';
 import { customerDetails } from '../models/customerModel';
 import { Status } from '../enums/status';
 import { ApplicationObjects } from '../entity/ApplicationObjeacts';
+import * as fs from 'fs';
 
 const customerRepository = AppDataSource.getRepository(Customers)
 const applicationObjectRepository = AppDataSource.getRepository(ApplicationObjects)
@@ -26,7 +27,7 @@ const GetCustomers = async (req: Request, res: Response, next: NextFunction) => 
   try {
     const result = await customerRepository.find();
     const applicationObjects = await applicationObjectRepository.find();
-    const application = result.forEach((customer) =>{
+    const application = result.forEach((customer) => {
       customer.CustomerRole = applicationObjects.find(x => x.ApplicationObjectId == customer.customerRoleId);
       customer.CustomerType = applicationObjects.find(x => x.ApplicationObjectId == customer.customerTypeId);
     })
@@ -39,9 +40,11 @@ const GetCustomers = async (req: Request, res: Response, next: NextFunction) => 
 
 const GetCustomerById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await customerRepository.findOne({where: {
-      customerId: parseInt(req.query.id.toString(),10),
-    }});
+    const result = await customerRepository.findOne({
+      where: {
+        customerId: parseInt(req.query.id.toString(), 10),
+      }
+    });
     const applicationObjects = await applicationObjectRepository.find();
     result.CustomerRole = applicationObjects.find(x => x.ApplicationObjectId == result.customerRoleId);
     result.CustomerType = applicationObjects.find(x => x.ApplicationObjectId == result.customerTypeId);
@@ -70,7 +73,13 @@ const AddCustomers = async (req: Request, res: Response, next: NextFunction) => 
       customer.customerDetails = customerDetail.customerDetails;
       customer.contactNumber = customerDetail.contactNumber;
       customer.email = customerDetail.email;
-      customer.customerPhotoPath = req.file.filename;
+      if(req.file) {
+        const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        req.file.originalname = uniquePrefix + req.file.originalname;
+        customer.customerPhotoPath = req.file.originalname;
+        fs.writeFile(`./storage/UploadCustomerPhoto/${req.file.originalname}`, req.file.buffer, () => {});
+        
+      }
       customer.birthDate = customerDetail.birthDate;
       customer.customerTypeId = customerDetail.customerTypeId;
       customer.isActive = customerDetail.isActive;
@@ -108,7 +117,9 @@ const UpdateCustomers = async (req: Request, res: Response, next: NextFunction) 
       customer.customerDetails = customerDetail.customerDetails;
       customer.contactNumber = customerDetail.contactNumber;
       customer.email = customerDetail.email;
-      customer.customerPhotoPath = req.file.filename;
+      if(req.file) {
+        customer.customerPhotoPath = req.file.filename;
+      }
       customer.birthDate = customerDetail.birthDate;
       customer.customerTypeId = customerDetail.customerTypeId;
       customer.isActive = customerDetail.isActive;
@@ -135,4 +146,4 @@ const DeleteCustomers = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export { GetCustomers, AddCustomers, UpdateCustomers, DeleteCustomers,GetCustomerById };
+export { GetCustomers, AddCustomers, UpdateCustomers, DeleteCustomers, GetCustomerById };

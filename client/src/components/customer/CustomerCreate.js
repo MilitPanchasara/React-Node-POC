@@ -73,13 +73,13 @@ function CustomerCreate() {
           const formData = new FormData();
           if (imageFile) {
             formData.append('customerImage', imageFile);
-            for(const key in values){
-              if(values.hasOwnProperty(key)){
-                formData.append(key,values[key])
-              }
+          }
+          for (const key in values) {
+            if (values.hasOwnProperty(key)) {
+              formData.append(key, values[key])
             }
           }
-          await axios.post("http://localhost:3333/Customer",formData).then(() =>{
+          await axios.post("http://localhost:3333/Customer", formData).then(() => {
             navigate("/portal/customer-list");
           });
         } catch (error) {
@@ -100,27 +100,27 @@ function CustomerCreate() {
           <div className="col-lg-6">
             <label>Customer Name</label>
             <input name='customerName' value={myFormik.values.customerName} onChange={myFormik.handleChange} type={"text"}
-              className={`form-control ${myFormik.errors.customerName ? "is-invalid" : ""} `} />
-            <span style={{ color: "red" }}>{myFormik.errors.customerName}</span>
+              className={`form-control ${myFormik.touched.customerName && myFormik.errors.customerName ? "is-invalid" : ""} `} />
+            <span style={{ color: "red" }}>{myFormik.touched.customerName && myFormik.errors.customerName}</span>
           </div>
           <div className="col-lg-6">
             <label>Customer Details</label>
             <textarea name='customerDetails' value={myFormik.values.customerDetails} onChange={myFormik.handleChange} type={"text"}
-              className={`form-control ${myFormik.errors.customerDetails ? "is-invalid" : ""} `} />
-            <span style={{ color: "red" }}>{myFormik.errors.customerDetails}</span>
+              className={`form-control ${myFormik.touched.customerDetails && myFormik.errors.customerDetails ? "is-invalid" : ""} `} />
+            <span style={{ color: "red" }}>{myFormik.touched.customerDetails && myFormik.errors.customerDetails}</span>
           </div>
 
           <div className="col-lg-6 mt-3">
             <label>E-Mail</label>
             <input name='email' value={myFormik.values.email} onChange={myFormik.handleChange} type={"mail"}
-              className={`form-control ${myFormik.errors.email ? "is-invalid" : ""} `} />
-            <span style={{ color: "red" }}>{myFormik.errors.email}</span>
+              className={`form-control ${myFormik.touched.email && myFormik.errors.email ? "is-invalid" : ""} `} />
+            <span style={{ color: "red" }}>{myFormik.touched.email && myFormik.errors.email}</span>
           </div>
 
           <div className='col-lg-4 mt-3'>
             <label>BirthDate</label>
-            <input name='birthDate' value={myFormik.values.birthDate} onChange={myFormik.handleChange} type={"date"}
-              className={`form-control ${myFormik.errors.birthDate ? "is-invalid" : ""} `} />
+            <input name='birthDate' value={myFormik.touched.birthDate && myFormik.values.birthDate} onChange={myFormik.handleChange} type={"date"}
+              className={`form-control ${myFormik.touched.birthDate && myFormik.errors.birthDate ? "is-invalid" : ""} `} />
           </div>
 
           {/* <div className="col-lg-6">
@@ -134,31 +134,31 @@ function CustomerCreate() {
           <div className='col-lg-6 mt-3'>
             <label>Customer Role</label>
             <select name='customerRoleId' value={myFormik.values.customerRoleId} onChange={myFormik.handleChange}
-              className={`form-control ${myFormik.errors.customerRoleId ? "is-invalid" : ""} `} >
+              className={`form-control ${myFormik.touched.customerRoleId && myFormik.errors.customerRoleId ? "is-invalid" : ""} `} >
               <option value="">----Select----</option>
               <option value="22">Admin</option>
               <option value="23">Guest</option>
               <option value="24">Registered</option>
             </select>
-            <span style={{ color: "red" }}>{myFormik.errors.customerRoleId}</span>
+            <span style={{ color: "red" }}>{myFormik.touched.customerRoleId && myFormik.errors.customerRoleId}</span>
           </div>
 
           <div className='col-lg-6 form-check mt-3'>
             <label>Customer Type</label>
             <div className='row'>
               <div className='form-check'>
-                <input className="form-check-input" type="radio" name="customerTypeId" value={20} checked={parseInt(myFormik.values.customerTypeId,10) === 20} id="onlinecustomers" onChange={myFormik.handleChange}></input>
+                <input className="form-check-input" type="radio" name="customerTypeId" value={20} checked={parseInt(myFormik.values.customerTypeId, 10) === 20} id="onlinecustomers" onChange={myFormik.handleChange}></input>
                 <label className="form-check-label" htmlFor="onlinecustomers">
                   online customer
                 </label>
               </div>
               <div className='form-check'>
-                <input className="form-check-input" type="radio" name="customerTypeId" value={21} checked={parseInt(myFormik.values.customerTypeId,10) === 21} id="offlinecustomers" onChange={myFormik.handleChange}></input>
+                <input className="form-check-input" type="radio" name="customerTypeId" value={21} checked={parseInt(myFormik.values.customerTypeId, 10) === 21} id="offlinecustomers" onChange={myFormik.handleChange}></input>
                 <label className="form-check-label" htmlFor="offlinecustomers">
                   Offline customer
                 </label>
               </div>
-              <span style={{ color: "red" }}>{myFormik.errors.customerTypeId}</span>
+              <span style={{ color: "red" }}>{myFormik.touched.customerTypeId && myFormik.errors.customerTypeId}</span>
             </div>
           </div>
 
@@ -189,7 +189,6 @@ function CustomerCreate() {
           </div>
         </div>
       </form>
-      {JSON.stringify(myFormik.values)}
     </div>
   );
 }

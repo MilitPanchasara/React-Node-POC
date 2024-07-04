@@ -30,6 +30,7 @@ app.use(
 	}),
 	cookieParser(),
 	bodyParser.json(),
+	bodyParser.urlencoded({ extended: true }),
 	morgan("dev")
 );
 

@@ -1,4 +1,4 @@
-import {Router,Request,Response,NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { GetCustomers, AddCustomers, UpdateCustomers, DeleteCustomers, GetCustomerById } from '../controllers/customer.controller';
 import Joi from 'joi';
 import { HttpStatusCodes } from '../enums/error';
@@ -16,11 +16,11 @@ const storage = multer.diskStorage({
     cb(null, "./storage/UploadCustomerPhoto");
   },
   filename: function (req: Request, file: Express.Multer.File, cb: Function) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname);
+    cb(null, file.originalname);
   },
 });
 
+const uploadTemp = multer();
 const upload = multer({ storage: storage });
 
 // Basic CRUD Routing
@@ -30,14 +30,14 @@ CustomerRoute.get('/Customer', GetCustomers, async (req: Request, res: Response)
 });
 
 CustomerRoute.post('/Customer',
-  upload.single('customerImage'),
+  uploadTemp.single('customerImage'),
   AddCustomers,
   async (req: Request, res: Response) => {
     res.status(200).send(res.locals.AddedRoles);
-});
+  });
 
 CustomerRoute.put('/Customer',
-upload.single('customerImage'),
+  upload.single('customerImage'),
   UpdateCustomers,
   async (req: Request, res: Response) => {
     res.status(200).send(res.locals.UpdatedRole);
