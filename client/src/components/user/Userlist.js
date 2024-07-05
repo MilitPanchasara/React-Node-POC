@@ -58,19 +58,15 @@ function Userlist() {
                 <table className="table table-bordered" id="dataTable" width="100%" cellSpacing="0">
                   <thead>
                     <tr>
-                      <th>Customer Name</th>
-                      <th>Customer Details</th>
-                      <th>Contact Details</th>
-                      <th>Email</th>
-                      <th>Birthdate</th>
-                      <th>Customer Photo</th>
-                      <th>Customer Type</th>
-                      <th>Is Active?</th>
+                       <th>Id</th>
+                      <th>Name</th>
+                      <th>E-Mail</th>
                       <th>Role</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tfoot>
-                    <tr>
+                    {/* <tr>
                       <th>Customer Name</th>
                       <th>Customer Details</th>
                       <th>Contact Details</th>
@@ -80,7 +76,7 @@ function Userlist() {
                       <th>Customer Type</th>
                       <th>Is Active?</th>
                       <th>Role</th>
-                    </tr>
+                    </tr> */}
                   </tfoot>
                   <tbody>
                     {userList.map((user) => {

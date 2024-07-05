@@ -18,7 +18,7 @@ UserRoute.post(
   UserController.getUserByEmail,
   generateToken,
   async (req: Request, res: Response) => {
-    res.cookie('acess_token', res.locals.userdata.token, {
+    res.cookie('access_token', res.locals.userdata.token, {
       httpOnly: false,
       expires: new Date(Date.now() + 120 * 60 * 1000),
       secure: true,
@@ -35,8 +35,12 @@ UserRoute.post(
 );
 
 // For Token verification.
-UserRoute.get('/verify', authentication, async (req: Request, res: Response) => {
-  res.status(200).send(res.locals.tokendata);
+UserRoute.get('/verify',cookieParser(), authentication, async (req: Request, res: Response) => {
+  res.cookie('userRole', res.locals.tokendata.userRole, {
+    httpOnly: false,
+    expires: new Date(Date.now() + 120 * 60 * 1000),
+    secure: true,
+  });
 });
 
 // Signup Apis for user with password hash

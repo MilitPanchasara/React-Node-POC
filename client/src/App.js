@@ -15,28 +15,31 @@ import CustomerList from './components/customer/CustomerList';
 import CustomerEdit from './components/customer/CustomerEdit';
 import CustomerCreate from './components/customer/CustomerCreate';
 import DiscountList from './components/discount/DiscountList';
+import { AuthProvider } from './Auth/AuthProvider';
+import {ProtectedRoute} from './Auth/ProtectedRoute'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Login />} />
-
-        <Route path='/portal' element={<Portal />}>
-          <Route path='dashboard' element={<Dashboard />} />
-          <Route path='user-list' element={<Userlist />} />
-          <Route path='create-user' element={<UserCreate />} />
-          <Route path='user-view/:id' element={<UserView />} />
-          <Route path='user-edit/:id' element={<UserEdit />} />
-          <Route path='product/product-list' element={<ProductList />} />
-          <Route path='product/create-product' element={<ProductCreate />} />
-          <Route path='customer-list' element={<CustomerList />} />
-          <Route path='customer-edit/:id' element={<CustomerEdit />} />
-          <Route path='customer-list/create-customer' element={<CustomerCreate />} />
-          <Route path='discount-list' element={<DiscountList />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/portal' element={<ProtectedRoute element={<Portal />} />}>
+            <Route path='dashboard' element={<ProtectedRoute element={<Dashboard />} />} />
+            <Route path='user-list' element={<ProtectedRoute element={<Userlist />} />} />
+            <Route path='create-user' element={<ProtectedRoute element={<UserCreate />} />} />
+            <Route path='user-view/:id' element={<ProtectedRoute element={<UserView />} />} />
+            <Route path='user-edit/:id' element={<ProtectedRoute element={<UserEdit />} />} />
+            <Route path='product/product-list' element={<ProtectedRoute element={<ProductList />} />} />
+            <Route path='product/create-product' element={<ProtectedRoute element={<ProductCreate />} />} />
+            <Route path='customer-list' element={<ProtectedRoute element={<CustomerList />} />} />
+            <Route path='customer-edit/:id' element={<ProtectedRoute element={<CustomerEdit />} />} />
+            <Route path='customer-list/create-customer' element={<ProtectedRoute element={<CustomerCreate />} />} />
+            <Route path='discount-list' element={<ProtectedRoute element={<DiscountList />} />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -1,45 +1,89 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Link } from 'react-router-dom'
+import { Formik, useFormik } from 'formik';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Auth/AuthProvider';
 
 function Login() {
+    const [isLoading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const { login } = useAuth();
+
+    const myFormik = useFormik(
+        {
+          initialValues: {
+            email: "",
+            password: ""
+          },
+          // Validating Forms while entering the data
+          validate: (values) => {
+            let errors = {}           //Validating the form once the error returns empty else onsubmit won't work
+    
+            if (!values.password) {
+              errors.password = "Please enter password";
+            }
+            if (!values.email) {
+              errors.email = "Please enter email";
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+              errors.email = 'Invalid email address';
+            }
+    
+            return errors;
+          },
+          //one can be able to submit once the validates returns empty value (validation successful) else can't be submitted
+          onSubmit: async (values) => {
+            console.log(values);
+            try {
+              setLoading(true);
+              await login(values);
+              navigate("/portal/dashboard");
+            } catch (error) {
+              console.log(error);
+              alert("Email address and password not matched");
+              setLoading(false);
+            }
+          }
+    
+        });
     return (
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
+        <div className="row justify-content-center">
+            <div className="col-xl-10 col-lg-12 col-md-9">
+                <div className="card o-hidden border-0 shadow-lg my-5">
+                    <div className="card-body p-0">
                         {/* <!-- Nested Row within Card Body --> */}
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                        <div className="row">
+                            <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div className="col-lg-6">
+                                <div className="p-5">
+                                    <div className="text-center">
+                                        <h1 className="h4 text-gray-900 mb-4">Login</h1>
                                     </div>
-                                    <form class="user">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                    <form className="user" onSubmit={myFormik.handleSubmit}>
+                                        <div className="form-group">
+                                            <input type="email" name='email' value={myFormik.values.email} onChange={myFormik.handleChange} className="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address..." />
+                                                <span style={{ color: "red" }}>{myFormik.errors.email}</span>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
+                                        <div className="form-group">
+                                            <input type="password" name='password' value={myFormik.values.password} onChange={myFormik.handleChange} className="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password" />
+                                                <span style={{ color: "red" }}>{myFormik.errors.password}</span>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck" />
-                                                <label class="custom-control-label" for="customCheck">Remember
+                                        <div className="form-group">
+                                            <div className="custom-control custom-checkbox small">
+                                                <input type="checkbox" className="custom-control-input" id="customCheck" />
+                                                <label className="custom-control-label" htmlFor="customCheck">Remember
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <Link to="/portal/dashboard" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </Link>
+                                        <input disabled={isLoading} type="submit" value={isLoading ? "Verifying..." : "Login"} className=' btn btn-primary' />
                                     
                                     </form>
                                     <hr />
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                    <div className="text-center">
+                                        <a className="small" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     {/* <div class="text-center">
                                         <a class="small" href="register.html">Create an Account!</a>

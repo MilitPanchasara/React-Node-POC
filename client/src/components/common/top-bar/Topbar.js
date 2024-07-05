@@ -1,10 +1,11 @@
 import { faBell, faCircleUser, faEnvelope } from '@fortawesome/free-regular-svg-icons'
-import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSearch, faSignOut } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { useAuth } from '../../../Auth/AuthProvider';
 function Topbar() {
+    const { logout } = useAuth();
     return (
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
             {/* <!-- Sidebar Toggle (Topbar) --> */}
@@ -39,8 +40,10 @@ function Topbar() {
                     </div>
                 </li>
 
-                <div className="topbar-divider d-none d-sm-block"></div>
 
+                <Link className='nav-item p-4' to="/" onClick={logout}>
+                    <FontAwesomeIcon icon={faSignOut} size={"lg"} />
+                </Link>
                 {/* <!-- Nav Item - User Information --> */}
                 <li className="nav-item dropdown no-arrow">
                     <Link className="nav-link dropdown-toggle" to="/" id="userDropdown" role="button"
