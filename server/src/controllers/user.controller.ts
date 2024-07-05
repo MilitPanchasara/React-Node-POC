@@ -63,7 +63,7 @@ const getUserByEmail = async (
 				.status(HttpStatusCodes.UNAUTHORIZED)
 				.send({ message: "Invalid Username or password" });
 		}
-    console.log(user);
+		
 		res.locals.User = user;
 		next();
 	} catch (error) {

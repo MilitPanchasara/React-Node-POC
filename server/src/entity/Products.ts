@@ -39,7 +39,7 @@ export class Products {
 	@JoinColumn({ name: "ProductCategoryId" })
 	ProductCategory: Productcategories;
 
-	@Column()
+	@Column({type:"boolean"})
 	IsOwnProduct: boolean;
 
 	@Column()

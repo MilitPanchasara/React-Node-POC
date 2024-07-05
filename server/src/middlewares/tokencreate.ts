@@ -10,16 +10,16 @@ const generateToken = async (req: Request, res: Response, next: NextFunction) =>
 
     if (role) {
       credential = {
-        role: role,
-        contactNo: res.locals.User.UserPhoneNumber,
-        email: res.locals.User.UserEmailId,
+        role: res.locals.User.RoleId,
+        email: res.locals.User.Email,
+        fullName:res.locals.User.FirstName+' '+res.locals.User.LastName
       };
 
       const token = jwt.sign(credential, process.env.JWT_SECRET_KEY as string, {
         expiresIn: '1d',
       });
-
-      res.locals.userdata = { token, username:  res.locals.User.FirstName+res.locals.User.LastName };
+      var userName = res.locals.User.FirstName+' '+res.locals.User.LastName
+      res.locals.userdata = { token, username: userName  };
       next();
     } else {
       throw new Error('Role not found');

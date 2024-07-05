@@ -6,6 +6,7 @@ import { Products } from "../entity/Products";
 import { AppDataSource } from "../config/data-source";
 import { Status } from "../enums/status";
 import { Productcategories } from "../entity/ProductCategories";
+import * as fs from 'fs';
 
 const ProductRepository = AppDataSource.getRepository(Products);
 const ProductCategories = AppDataSource.getRepository(Productcategories);
@@ -40,7 +41,7 @@ const GetProduct = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		ProductRepository.find().then(async (allProduct) => {
 			var categories = await ProductCategories.find();
-			allProduct.forEach((product) =>{
+			allProduct.forEach((product) => {
 				product.ProductCategory = categories.find(x => x.ProductcategoryId == product.ProductCategoryId)
 			})
 			res.locals.Posts = allProduct;
@@ -65,10 +66,15 @@ const AddProduct = async (req: Request, res: Response, next: NextFunction) => {
 				},
 			});
 		} else {
+			if (req.file) {
+				const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+				req.file.originalname = uniquePrefix + req.file.originalname;
+				fs.writeFile(`./storage/Uploads/${req.file.originalname}`, req.file.buffer, () => { });
+			}
 			ProductRepository.save({
 				ProductName: req.body.productName,
 				ProductDetail: req.body.productDetail,
-				ProductImageName: req.file.filename,
+				ProductImageName: req.file.originalname,
 				SKU: generateRandomString(10),
 				Price: req.body.price,
 				Quantity: req.body.quantity,
@@ -107,23 +113,28 @@ const UpdateProduct = async (
 			});
 		} else {
 			const id = req.query.id as any as number;
-			var oldProductData = await ProductRepository.findOneBy({ProductId:id})
+			var oldProductData = await ProductRepository.findOneBy({ ProductId: id })
 
+			if (req.file) {
+				const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+				req.file.originalname = uniquePrefix + req.file.originalname;
+				fs.writeFile(`./storage/Uploads/${req.file.originalname}`, req.file.buffer, () => { });
+			}
 			var product = new Products();
-			product.ProductName =  req.body.productName,
-			product.ProductDetail =  req.body.productDetail,
-			product.ProductImageName = req.file.filename != null ? req.file.filename : oldProductData.ProductImageName,
-			product.SKU = oldProductData.SKU,
-			product.Price =  req.body.price,
-			product.Quantity =  req.body.quantity,
-			product.ProductCategoryId =  req.body.productCategoryId,
-			product.IsOwnProduct =  req.body.isOwnProduct,
-			product.AvailableTill =  req.body.availableTill,
-			product.StatusId =  oldProductData.StatusId,
-			product.UpdatedBy =  1,
-			product.UserIpAddress =  "",
+			product.ProductName = req.body.productName,
+				product.ProductDetail = req.body.productDetail,
+				product.ProductImageName = req.file.originalname != null ? req.file.originalname : oldProductData.ProductImageName,
+				product.SKU = oldProductData.SKU,
+				product.Price = req.body.price,
+				product.Quantity = req.body.quantity,
+				product.ProductCategoryId = req.body.productCategoryId,
+				product.IsOwnProduct = req.body.isOwnProduct,
+				product.AvailableTill = req.body.availableTill,
+				product.StatusId = oldProductData.StatusId,
+				product.UpdatedBy = 1,
+				product.UserIpAddress = "",
 
-			ProductRepository.update(id, product);
+				ProductRepository.update(id, product);
 			res.locals.updated_post = `Product Id:${req.query.id} Updated SuccessFully`;
 			next();
 		}

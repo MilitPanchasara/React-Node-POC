@@ -18,6 +18,7 @@ UserRoute.post(
   UserController.getUserByEmail,
   generateToken,
   async (req: Request, res: Response) => {
+    console.log(res.locals.userdata);
     res.cookie('access_token', res.locals.userdata.token, {
       httpOnly: false,
       expires: new Date(Date.now() + 120 * 60 * 1000),
@@ -36,10 +37,19 @@ UserRoute.post(
 
 // For Token verification.
 UserRoute.get('/verify',cookieParser(), authentication, async (req: Request, res: Response) => {
-  res.cookie('userRole', res.locals.tokendata.userRole, {
+  console.log(res.locals.tokendata);
+  res.cookie('userRole', res.locals.tokendata.role, {
     httpOnly: false,
     expires: new Date(Date.now() + 120 * 60 * 1000),
     secure: true,
+  });
+  res.cookie('userName', res.locals.tokendata.fullName, {
+    httpOnly: false,
+    expires: new Date(Date.now() + 120 * 60 * 1000),
+    secure: true,
+  });
+  res.status(200).json({
+    message: 'Verified',
   });
 });
 

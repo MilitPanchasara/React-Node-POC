@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../../Auth/AuthProvider';
 function Topbar() {
     const { logout } = useAuth();
+    const { authState } = useAuth();
     return (
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
             {/* <!-- Sidebar Toggle (Topbar) --> */}
@@ -48,11 +49,11 @@ function Topbar() {
                 <li className="nav-item dropdown no-arrow">
                     <Link className="nav-link dropdown-toggle" to="/" id="userDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span className="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                        <span className="mr-2 d-none d-lg-inline text-gray-600 small">{authState.userName}</span>
                         <FontAwesomeIcon icon={faCircleUser} size={"xl"} />
                     </Link>
                     {/* <!-- Dropdown - User Information --> */}
-                    <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"formData
+                    <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">
                         <a className="dropdown-item" href="#">
                             <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>

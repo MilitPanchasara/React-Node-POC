@@ -4,21 +4,7 @@ import multer from 'multer';
 import Joi from 'joi';
 
 
-const storage = multer.diskStorage({
-	destination: function (
-		req: Request,
-		file: Express.Multer.File,
-		cb: Function
-	) {
-		cb(null, "./storage/Uploads");
-	},
-	filename: function (req: Request, file: Express.Multer.File, cb: Function) {
-		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-		cb(null, uniqueSuffix + "-" + file.originalname);
-	},
-});
-
-const upload = multer({ storage: storage });
+const uploadTemp = multer();
 
 const PostValidations = Joi.object().keys({
 	productName: Joi.string().required().min(4).max(50),
@@ -40,7 +26,7 @@ ProductRoute.get("/Product", GetProduct, async (req, res) => {
 
 ProductRoute.post(
   "/Product",
-  upload.single("productImageLink"),
+  uploadTemp.single("productImage"),
   AddProduct,
   async (req, res) => {
     res.status(200).send("Post added");
@@ -50,7 +36,7 @@ ProductRoute.post(
 
 ProductRoute.put(
   "/Product",
-  upload.single("productImageLink"),
+  uploadTemp.single("productImage"),
   UpdateProduct,
   async (req, res) => {
     res.status(200).send(res.locals.updated_post);
